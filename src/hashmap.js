@@ -40,7 +40,7 @@ class HashMap {
         const bucket = this.buckets[index];
         try {
             return bucket.at(bucket.findKey(key)).value;
-        } catch {return null;}
+        } catch { return null; }
     }
 
     has(key) {
@@ -49,9 +49,11 @@ class HashMap {
     }
 
     remove(key) {
-        const index = this.hash(key);
-        if (this.buckets[index].key === key) {
-            delete this.buckets[index];
+        const bucketIndex = this.hash(key);
+        const bucket = this.buckets[bucketIndex];
+        const keyIndex = bucket.findKey(key);
+        if (keyIndex != null) {
+            bucket.removeAt(keyIndex);
             return true;
         }
         else { return false; }
@@ -104,10 +106,12 @@ class HashMap {
 
 let hmap = new HashMap();
 
-// hmap.set('a', 'hello') // hashes to 1
-// hmap.set('1', 'hello') // also hashes to 1
-// hmap.set('2', 'hello') // hashes to 2
-// hmap.set('3', 'hello') // hashes to 3
-// hmap.set('4', 'hello') // hashes to 4
+hmap.set('a', 'thisA') // hashes to 1
+hmap.set('1', 'now1') // also hashes to 1
+hmap.set('2', 'dis2') // hashes to 2
+hmap.set('3', 'see3') // hashes to 3
+hmap.set('4', 'c4') // hashes to 4
+
+// hmap.remove('a');
 
 console.log(hmap);

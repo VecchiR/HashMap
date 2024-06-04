@@ -73,10 +73,10 @@ export class LinkedList {
     containsKey(key) {
         if (this.head === null) { return false; }
         let node = this.head;
-        if (node.key === key) {return true;}
+        if (node.key === key) { return true; }
         while (node.nextNode != null) {
             node = node.nextNode;
-            if (node.key === key) {return true;}
+            if (node.key === key) { return true; }
         }
         return false;
     }
@@ -84,17 +84,17 @@ export class LinkedList {
     findKey(key) {
         let index = 0;
         let node = this.head;
-        if (node.key === key) {return index;}
+        if (node.key === key) { return index; }
         while (node.nextNode != null) {
             node = node.nextNode;
             index++;
-            if (node.key === key) {return index;}
+            if (node.key === key) { return index; }
         }
         return null;
     }
 
     toString() {
-        if (this.head === null) {return null;}
+        if (this.head === null) { return null; }
         let string = '';
         let node = this.head;
         while (node.nextNode != null) {
@@ -106,8 +106,8 @@ export class LinkedList {
     }
 
     insertAt(value, index) {
-        if (index > this.size() || index < 0) { return 'Index is out of range!' ;}
-        if (index === this.size()) {return this.append(value);}
+        if (index > this.size() || index < 0) { return 'Index is out of range!'; }
+        if (index === this.size()) { return this.append(value); }
         let node = this.head;
         let count = 0;
         while (count < index) {
@@ -122,29 +122,23 @@ export class LinkedList {
         node.nextNode = temp;
     }
 
-    removeAt(index){
-        if (index >= this.size() || index < 0) { return 'Index is out of range!' ;}
-        let node = this.head;
+    removeAt(index) {
+        if (index === null || index < 0 || index >= this.size()) { return 'Index is out of range!'; }
+        if (index === 0) {
+            this.head = this.head.nextNode;
+            return;
+        }
+        let currentNode = this.head;
         let count = 0;
-        while (count+1 < index) {
+        while (count +1 < index) {
             count++;
-            node = node.nextNode;
+            currentNode = currentNode.nextNode;
         }
         try {
-            node.value = node.nextNode.value;
-            node.nextNode = node.nextNode.nextNode;
+            currentNode.nextNode = currentNode.nextNode.nextNode;
         } catch {
-            this.head = null;
+            currentNode.nextNode = null;
         }
     }
 
 }
-
-
-// const list = new LinkedList();
-// list.append('hey');
-// list.append('ho');
-// list.append('lesgo');
-
-
-// console.log(list.toString());

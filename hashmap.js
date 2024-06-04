@@ -5,16 +5,14 @@
 //     throw new Error("Trying to access index out of bound");
 //   }
 
+import { Node, LinkedList } from "./linked-lists";
 
 class HashMap {
     constructor() {
         this.buckets = Array(16);
-        for(let i=0; i<this.buckets.length; i++) {
+        for (let i = 0; i < this.buckets.length; i++) {
             this.buckets[i] = {
-                head : {
-                    value: null,
-                    nextNode: null
-                }
+                head: null
             }
         }
     }
@@ -31,13 +29,21 @@ class HashMap {
 
     set(key, value) {
         const index = this.hash(key);
-
-        // if(!this.buckets[index]){
-        //     this.buckets[index] = [];
-        // }
-        // this.buckets[index].push({ key, value }); //legal, mas se fizer 2 vezes a mesma key, duplica
-
-        this.buckets[index] = { key, value }; //legal tb, mas só aceita 1 par
+        const node = {
+            key: key,
+            value: value,
+            nextNode: null
+        }
+        if (!this.buckets[index].head) {
+            this.buckets[index].head = node;
+        }
+        else {
+            let current = this.buckets[index].head;
+            while (current.nextNode != null) {
+                current = current.nextNode;
+            }
+            current.nextNode = node;
+        }
     }
 
     get(key) {
@@ -106,15 +112,10 @@ class HashMap {
 
 let hmap = new HashMap();
 
-hmap.set('oreo', 'hello')
-hmap.set('1', 'hello')
-hmap.set('2', 'hello')
-hmap.set('3', 'hello')
-hmap.set('4', 'hello')
+hmap.set('a', 'hello') // hashes to 1
+hmap.set('1', 'hello') // also hashes to 1
+hmap.set('2', 'hello') // hashes to 2
+hmap.set('3', 'hello') // hashes to 3
+hmap.set('4', 'hello') // hashes to 4
 
 console.log(hmap);
-
-/* até aqui, tudo 'funciona', mas SÓ CABE 1 KEY-VALUE PAIR em cada bucket
-1 - transformar cada bucket numa linked-list  p/ acomodar mais pares
-2 - refactor all functions based on this new behavior
-3 - GROWING. (capcity, load factor...) */

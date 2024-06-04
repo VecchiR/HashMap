@@ -5,15 +5,13 @@
 //     throw new Error("Trying to access index out of bound");
 //   }
 
-import { Node, LinkedList } from "./linked-lists";
+import { Node, LinkedList } from "./hash-linked-lists.js";
 
 class HashMap {
     constructor() {
         this.buckets = Array(16);
         for (let i = 0; i < this.buckets.length; i++) {
-            this.buckets[i] = {
-                head: null
-            }
+            this.buckets[i] = new LinkedList();
         }
     }
 
@@ -28,22 +26,13 @@ class HashMap {
     }
 
     set(key, value) {
-        const index = this.hash(key);
-        const node = {
-            key: key,
-            value: value,
-            nextNode: null
-        }
-        if (!this.buckets[index].head) {
-            this.buckets[index].head = node;
-        }
-        else {
-            let current = this.buckets[index].head;
-            while (current.nextNode != null) {
-                current = current.nextNode;
-            }
-            current.nextNode = node;
-        }
+        const bucketIndex = this.hash(key);
+        const bucket = this.buckets[bucketIndex];
+        try {
+            const keyIndex = bucket.findKey(key);
+            bucket.at(keyIndex).key = key;
+            bucket.at(keyIndex).value = value;
+        } catch { bucket.append(key, value); }
     }
 
     get(key) {
@@ -53,7 +42,7 @@ class HashMap {
 
     has(key) {
         const index = this.hash(key);
-        return this.buckets[index].key === key;
+        return this.buckets[index].containsKey(key);
     }
 
     remove(key) {
@@ -112,10 +101,10 @@ class HashMap {
 
 let hmap = new HashMap();
 
-hmap.set('a', 'hello') // hashes to 1
-hmap.set('1', 'hello') // also hashes to 1
-hmap.set('2', 'hello') // hashes to 2
-hmap.set('3', 'hello') // hashes to 3
-hmap.set('4', 'hello') // hashes to 4
+// hmap.set('a', 'hello') // hashes to 1
+// hmap.set('1', 'hello') // also hashes to 1
+// hmap.set('2', 'hello') // hashes to 2
+// hmap.set('3', 'hello') // hashes to 3
+// hmap.set('4', 'hello') // hashes to 4
 
 console.log(hmap);

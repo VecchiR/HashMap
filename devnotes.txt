@@ -6,7 +6,7 @@ FEITO:
     OK - até aqui, tudo 'funciona', mas SÓ CABE 1 KEY-VALUE PAIR em cada bucket
         OK - transformar cada bucket numa linked-list  p/ acomodar mais pares
 
-- refactor all functions based on this new behavior (buckets as linked-lists)
+- refactor all functions based on this new behavior (buckets as linked-lists) -> using refactored linked list module
     OK - set(key, value) 
     - get(key) 
     - has(key)
@@ -18,11 +18,3 @@ FEITO:
     - entries() 
 
 - GROWING. (capcity, load factor...)
-
-
-notes: 
-
-if(!this.buckets[index]){
-    this.buckets[index] = [];
-}
-this.buckets[index].push({ key, value }); //legal, mas se fizer 2 vezes a mesma key, duplica

@@ -1,5 +1,6 @@
 export class Node {
     constructor() {
+        this.key = null;
         this.value = null;
         this.nextNode = null;
     }
@@ -10,8 +11,9 @@ export class LinkedList {
         this.head = null;
     }
 
-    append(value) {
+    append(key, value) {
         const node = new Node();
+        node.key = key;
         node.value = value;
         if (this.head === null) { this.head = node; return; }
         let current = this.head;
@@ -21,8 +23,9 @@ export class LinkedList {
         current.nextNode = node;
     }
 
-    prepend(value) {
+    prepend(key, value) {
         const node = new Node();
+        node.key = key;
         node.value = value;
         node.nextNode = this.head;
         this.head = node;
@@ -67,24 +70,24 @@ export class LinkedList {
         node.nextNode = null;
     }
 
-    contains(value) {
+    containsKey(key) {
         if (this.head === null) { return false; }
         let node = this.head;
-        while (node.nextNode != null) {
-            if (node.value === value) {return true;}
+        while (node.nextNode != null || node === this.head) {
+            if (node.key === key) {return true;}
             node = node.nextNode;
         }
         return false;
     }
 
-    find(value) {
+    findKey(key) {
         let index = 0;
         let node = this.head;
-        if (node.value === value) {return index;}
+        if (node.key === key) {return index;}
         while (node.nextNode != null) {
             node = node.nextNode;
             index++;
-            if (node.value === value) {return index;}
+            if (node.key === key) {return index;}
         }
         return null;
     }

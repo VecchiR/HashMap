@@ -73,9 +73,10 @@ export class LinkedList {
     containsKey(key) {
         if (this.head === null) { return false; }
         let node = this.head;
-        while (node.nextNode != null || node === this.head) {
-            if (node.key === key) {return true;}
+        if (node.key === key) {return true;}
+        while (node.nextNode != null) {
             node = node.nextNode;
+            if (node.key === key) {return true;}
         }
         return false;
     }

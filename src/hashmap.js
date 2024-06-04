@@ -37,7 +37,10 @@ class HashMap {
 
     get(key) {
         const index = this.hash(key);
-        return this.buckets[index].key === key ? this.buckets[index].value : null;
+        const bucket = this.buckets[index];
+        try {
+            return bucket.at(bucket.findKey(key)).value;
+        } catch {return null;}
     }
 
     has(key) {

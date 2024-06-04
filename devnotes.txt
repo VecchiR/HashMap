@@ -8,8 +8,8 @@ FEITO:
 
 - refactor all functions based on this new behavior (buckets as linked-lists) -> using refactored linked list module
     OK - set(key, value) 
-    - get(key) 
-    - has(key)
+    OK - get(key) 
+    OK - has(key)
     - remove(key) 
     - length() 
     - clear() 

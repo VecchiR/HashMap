@@ -9,6 +9,14 @@
 class HashMap {
     constructor() {
         this.buckets = Array(16);
+        for(let i=0; i<this.buckets.length; i++) {
+            this.buckets[i] = {
+                head : {
+                    value: null,
+                    nextNode: null
+                }
+            }
+        }
     }
 
     hash(key) {
@@ -18,7 +26,6 @@ class HashMap {
             hashCode = primeNumber * hashCode + key.charCodeAt(i);
             hashCode = hashCode % this.buckets.length;
         }
-
         return hashCode;
     }
 

@@ -1,16 +1,12 @@
-//LIMITATION: Use the following snippet whenever you access a bucket through an index. 
-//We want to throw an error if we try to access an out of bound index:
-
-// if (index < 0 || index >= buckets.length) {
-//     throw new Error("Trying to access index out of bound");
-//   }
-
-import { Node, LinkedList } from "./hash-linked-lists.js";
+import { Node, LinkedList } from "./hashmap-linked-lists.js";
 
 class HashMap {
-    constructor() {
-        this.buckets = Array(16);
-        for (let i = 0; i < this.buckets.length; i++) {
+    constructor(capacity) {
+        if(!capacity) {capacity = 16;}
+        this.loadFactor = 0.8;
+        this.buckets = Array(capacity);
+        this.capacity = capacity; 
+        for (let i = 0; i < this.capacity; i++) {
             this.buckets[i] = new LinkedList();
         }
     }
@@ -20,12 +16,13 @@ class HashMap {
         const primeNumber = 31;
         for (let i = 0; i < key.length; i++) {
             hashCode = primeNumber * hashCode + key.charCodeAt(i);
-            hashCode = hashCode % this.buckets.length;
+            hashCode = hashCode % this.capacity;
         }
         return hashCode;
     }
 
     set(key, value) {
+        this.growIfNeeded();
         const bucketIndex = this.hash(key);
         const bucket = this.buckets[bucketIndex];
         try {
@@ -76,8 +73,10 @@ class HashMap {
     keys() {
         let keys = [];
         this.buckets.forEach((bucket) => {
-            for (let i = 0; i < bucket.size(); i++) {
-                keys.push(bucket.at(i).key);
+            if (bucket.head != null) {
+                for (let i = 0; i < bucket.size(); i++) {
+                    keys.push(bucket.at(i).key);
+                }
             }
         })
         return keys;
@@ -96,27 +95,44 @@ class HashMap {
     entries() {
         let allEntries = [];
         this.buckets.forEach((bucket) => {
-            for (let i = 0; i < bucket.size(); i++) {
-                let entry = [];
-                entry.push(bucket.at(i).key);
-                entry.push(bucket.at(i).value);
-                allEntries.push(entry);
+            if (bucket.head != null) {
+                for (let i = 0; i < bucket.size(); i++) {
+                    let entry = [];
+                    entry.push(bucket.at(i).key);
+                    entry.push(bucket.at(i).value);
+                    allEntries.push(entry);
+                }
             }
         })
         return allEntries;
     }
 
+    growIfNeeded() {
+        if (this.needForGrowth()) {
+            const oldEntries = this.entries();
+            this.resizeBuckets();
+            this.reHashAndSet(oldEntries);
+        }
+    }
+
+    needForGrowth() {
+        const numberOfStoredKeys = this.keys().length;
+        return numberOfStoredKeys/this.capacity >= this.loadFactor;
+    }
+
+    resizeBuckets() {
+        const newCapacity = this.capacity*2;
+        this.capacity = newCapacity;
+        this.buckets = Array(newCapacity);
+        for (let i = 0; i < newCapacity; i++) {
+            this.buckets[i] = new LinkedList();
+        }
+    }
+
+    reHashAndSet(entries) {
+        entries.forEach((entry) => {
+            this.set(entry[0], entry[1]);
+        });
+    }
+
 }
-
-let hmap = new HashMap();
-
-hmap.set('a', 'thisA') // hashes to 1
-hmap.set('1', 'now1') // also hashes to 1
-hmap.set('2', 'dis2') // hashes to 2
-hmap.set('3', 'see3') // hashes to 3
-hmap.set('4', 'c4') // hashes to 4
-hmap.set('34', 'flla') // hashes to 1
-hmap.set('oreo', 'flla') // hashes to 13
-
-
-console.log(hmap);

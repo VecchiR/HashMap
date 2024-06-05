@@ -15,5 +15,7 @@ FEITO:
             OK - keys() 
             OK - values() 
             OK - entries() 
+    OK - GROWING. (capcity, load factor...)
 
-- GROWING. (capcity, load factor...)
+Extra (for later):
+- HashSet class? - behaves the same as a HashMap but only contains keys with no values (faz nova "hashset-linked-list" module?)

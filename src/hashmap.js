@@ -68,7 +68,9 @@ class HashMap {
     }
 
     clear() {
-        this.buckets = Array(16);
+        for (let i = 0; i < this.buckets.length; i++) {
+            this.buckets[i] = new LinkedList();
+        }
     }
 
     keys() {

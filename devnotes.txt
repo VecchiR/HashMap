@@ -12,7 +12,7 @@ FEITO:
     OK - has(key)
     OK - remove(key) 
     OK - length() 
-    - clear() 
+    OK - clear() 
     - keys() 
     - values() 
     - entries() 

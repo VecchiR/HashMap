@@ -62,7 +62,7 @@ class HashMap {
     length() {
         let count = 0;
         this.buckets.forEach((bucket) => {
-            bucket.key ? count++ : false;
+            count += bucket.size();
         })
         return count;
     }
@@ -112,6 +112,5 @@ hmap.set('2', 'dis2') // hashes to 2
 hmap.set('3', 'see3') // hashes to 3
 hmap.set('4', 'c4') // hashes to 4
 
-// hmap.remove('a');
 
 console.log(hmap);

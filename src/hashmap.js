@@ -76,7 +76,9 @@ class HashMap {
     keys() {
         let keys = [];
         this.buckets.forEach((bucket) => {
-            bucket.key ? keys.push(bucket.key) : false;
+            for (let i = 0; i < bucket.size(); i++) {
+                keys.push(bucket.at(i).key);
+            }
         })
         return keys;
     }
@@ -84,7 +86,9 @@ class HashMap {
     values() {
         let values = [];
         this.buckets.forEach((bucket) => {
-            bucket.value ? values.push(bucket.value) : false;
+            for (let i = 0; i < bucket.size(); i++) {
+                values.push(bucket.at(i).value);
+            }
         })
         return values;
     }
@@ -92,13 +96,11 @@ class HashMap {
     entries() {
         let allEntries = [];
         this.buckets.forEach((bucket) => {
-            let entry = [];
-            try {
-                entry.push(bucket.key);
-                entry.push(bucket.value);
+            for (let i = 0; i < bucket.size(); i++) {
+                let entry = [];
+                entry.push(bucket.at(i).key);
+                entry.push(bucket.at(i).value);
                 allEntries.push(entry);
-            } catch {
-                false;
             }
         })
         return allEntries;
@@ -113,6 +115,8 @@ hmap.set('1', 'now1') // also hashes to 1
 hmap.set('2', 'dis2') // hashes to 2
 hmap.set('3', 'see3') // hashes to 3
 hmap.set('4', 'c4') // hashes to 4
+hmap.set('34', 'flla') // hashes to 1
+hmap.set('oreo', 'flla') // hashes to 13
 
 
 console.log(hmap);
